@@ -130,7 +130,7 @@
 
 <script>
     // 1. PASTE YOUR WEB APP URL HERE
-    const WEB_APP_URL = "YOUR_GOOGLE_SCRIPT_WEB_APP_URL"; 
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzpTdptCzLhjnIjDjhrRMQSqh10qUIg6q11ewkhLlZ7RxAyhABbLxtehBHVT7IRrt0e/exec"; 
 
     let batchCount = 0;
     function addBatch() {
