@@ -13,13 +13,13 @@
         .card { background: white; padding: 15px; margin-bottom: 12px; border-radius: 12px; box-shadow: 0 3px 10px rgba(0,0,0,0.08); }
         .card h3 { margin: 0 0 12px; font-size: 15px; color: #0d6efd; border-bottom: 1px solid #eee; padding-bottom: 5px; }
         .field { margin-bottom: 12px; }
-        label { font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px; color: #333; }
+        label { font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px; color: #333; line-height: 1.4; }
+        label.req::after { content: " *"; color: #dc3545; }
         input, select, textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; }
         .batch-card { background: #f8f9fa; padding: 12px; border-radius: 10px; margin-top: 10px; border: 1px solid #ddd; }
         .footer { position: fixed; bottom: 0; width: 100%; background: white; padding: 15px; text-align: center; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); }
         .primary { background:#0d6efd; color:white; border:none; padding:12px 30px; border-radius:10px; font-weight:bold; cursor:pointer; width: 90%; }
         .secondary { background:#198754; color:white; border:none; padding:10px; border-radius:8px; margin-top:10px; font-weight:bold; width: 100%; cursor: pointer; }
-        .info-text { font-size: 11px; color: #666; margin-bottom: 10px; font-style: italic; }
     </style>
 </head>
 <body>
@@ -29,23 +29,23 @@
 <div class="container" id="formContainer">
     
     <div class="card">
-        <h3>PMKVY PI Form – Inspection and Centre Details</h3>
-        <div class="field"><label>Inspector Name and Contact No</label><input id="inspector" placeholder="e.g. John Doe, 9876543210"></div>
-        <div class="field"><label>Inspector Designation</label><input id="designation"></div>
-        <div class="field"><label>Inspection Date</label><input type="date" id="date"></div>
-        <div class="field"><label>Inspection Start Time</label><input type="time" id="start"></div>
-        <div class="field"><label>Inspection End Time</label><input type="time" id="end"></div>
-        <div class="field"><label>Training Center Name</label><input id="tcname"></div>
-        <div class="field"><label>Training Center ID</label><input id="tcid"></div>
-        <div class="field"><label>Training Provider Name</label><input id="tp"></div>
-        <div class="field"><label>TC State and District</label><input id="district"></div>
+        <h3>Inspection and Centre Details</h3>
+        <div class="field"><label>Inspector Name and Contact No</label><input id="inspector" oninput="saveLocal()"></div>
+        <div class="field"><label>Inspector Designation</label><input id="designation" oninput="saveLocal()"></div>
+        <div class="field"><label>Inspection Date</label><input type="date" id="date" oninput="saveLocal()"></div>
+        <div class="field"><label class="req">Inspection Start Time</label><input type="time" id="start" required oninput="saveLocal()"></div>
+        <div class="field"><label class="req">Inspection End Time</label><input type="time" id="end" required oninput="saveLocal()"></div>
+        <div class="field"><label>Training Center Name</label><input id="tcname" oninput="saveLocal()"></div>
+        <div class="field"><label>Training Center ID</label><input id="tcid" oninput="saveLocal()"></div>
+        <div class="field"><label>Training Provider Name</label><input id="tp" oninput="saveLocal()"></div>
+        <div class="field"><label>TC State and District</label><input id="district" oninput="saveLocal()"></div>
     </div>
 
     <div class="card">
         <h3>Inspection Details</h3>
         <div class="field">
             <label>Is the TC found at same address as on SIDH?</label>
-            <select id="sidh">
+            <select id="sidh" onchange="saveLocal()">
                 <option value="Yes - 1">Yes, found on same location as SIDH -1</option>
                 <option value="Nearby - 2">Found at a different nearby address -2</option>
                 <option value="Closed - 3">Found but closed -3</option>
@@ -54,11 +54,11 @@
         </div>
         <div class="field">
             <label>Is TC SPOC available at the centre?</label>
-            <select id="spoc"><option value="Yes-1">Yes-1</option><option value="No-0">No-0</option></select>
+            <select id="spoc" onchange="saveLocal()"><option value="Yes-1">Yes-1</option><option value="No-0">No-0</option></select>
         </div>
         <div class="field">
             <label>PMKVY Branding Available Outside and Inside the centre?</label>
-            <select id="branding">
+            <select id="branding" onchange="saveLocal()">
                 <option value="Both - 1">Yes, available both outside and inside -1</option>
                 <option value="Partial - 2">Partially Available - 2</option>
                 <option value="Not Available - 0">Not Available -0</option>
@@ -68,59 +68,51 @@
 
     <div class="card">
         <h3>Non-Compliance Observed at the Centre</h3>
-        <p class="info-text">Please mark "Yes" for any non-compliance observed during the visit.</p>
-        
         <div class="field"><label>Unethical Practices (Such as- subletting, offering/demanding undue favours in cash or in kind to a stakeholder)</label>
-            <select id="nc1"><option>No</option><option>Yes</option></select></div>
+            <select id="nc1" onchange="saveLocal()"><option>No</option><option>Yes</option></select></div>
         
         <div class="field"><label>Fake Enrolments/ Ghost candidates (PMKVY non-registered students found in ongoing PMKVY class)</label>
-            <select id="nc2"><option>No</option><option>Yes</option></select></div>
+            <select id="nc2" onchange="saveLocal()"><option>No</option><option>Yes</option></select></div>
         
         <div class="field"><label>Mismatch between candidates available at centre and Attendance Portal/AEBAS</label>
-            <select id="nc3"><option>No</option><option>Yes</option></select></div>
+            <select id="nc3" onchange="saveLocal()"><option>No</option><option>Yes</option></select></div>
         
         <div class="field"><label>Non-Availability of mandatory tools and equipment/ mandatory infrastructure</label>
-            <select id="nc4"><option>No</option><option>Yes</option></select></div>
+            <select id="nc4" onchange="saveLocal()"><option>No</option><option>Yes</option></select></div>
         
         <div class="field"><label>Training not being conducted at the time of visit as per PMKVY guidelines (batch time/schedule not followed)</label>
-            <select id="nc5"><option>No</option><option>Yes</option></select></div>
+            <select id="nc5" onchange="saveLocal()"><option>No</option><option>Yes</option></select></div>
         
         <div class="field"><label>Batch merged of different job roles</label>
-            <select id="nc6"><option>No</option><option>Yes</option></select></div>
+            <select id="nc6" onchange="saveLocal()"><option>No</option><option>Yes</option></select></div>
         
         <div class="field"><label>Batch merged of same job roles</label>
-            <select id="nc7"><option>No</option><option>Yes</option></select></div>
+            <select id="nc7" onchange="saveLocal()"><option>No</option><option>Yes</option></select></div>
         
         <div class="field"><label>Non-Availability of Certified Trainers</label>
-            <select id="nc8"><option>No</option><option>Yes</option></select></div>
+            <select id="nc8" onchange="saveLocal()"><option>No</option><option>Yes</option></select></div>
         
         <div class="field"><label>Non-Distribution of Handbook to the trainees</label>
-            <select id="nc9"><option>No</option><option>Yes</option></select></div>
+            <select id="nc9" onchange="saveLocal()"><option>No</option><option>Yes</option></select></div>
         
         <div class="field"><label>Non usage/Non-installation of AEBAS for recording Trainees/Trainers attendance</label>
-            <select id="nc10"><option>No</option><option>Yes</option></select></div>
+            <select id="nc10" onchange="saveLocal()"><option>No</option><option>Yes</option></select></div>
         
         <div class="field"><label>Enrolment of candidates not fulfilling prerequisites of the job role</label>
-            <select id="nc11"><option>No</option><option>Yes</option></select></div>
+            <select id="nc11" onchange="saveLocal()"><option>No</option><option>Yes</option></select></div>
 
         <div class="field"><label>Additional Remarks – Non-Compliance</label>
-            <textarea id="ncRemarks" placeholder="Details of the non-compliance observed..."></textarea></div>
+            <textarea id="ncRemarks" oninput="saveLocal()"></textarea></div>
         
         <div class="field"><label>Overall Centre Rating</label>
-            <select id="rating">
-                <option>Good</option>
-                <option>Average</option>
-                <option>Poor</option>
-            </select>
-        </div>
+            <select id="rating" onchange="saveLocal()"><option>Good</option><option>Average</option><option>Poor</option></select></div>
         
         <div class="field"><label>Remarks (Please add remarks based on inspection and details of non-compliance observed)</label>
-            <textarea id="remarks"></textarea></div>
+            <textarea id="remarks" oninput="saveLocal()"></textarea></div>
     </div>
 
     <div class="card">
         <h3>Inspection Details of Active Batches</h3>
-        <p class="info-text">Active at the time of inspection.</p>
         <div id="batchContainer"></div>
         <button class="secondary" onclick="addBatch()">+ Add Another Batch</button>
     </div>
@@ -129,59 +121,10 @@
 <div class="footer"><button class="primary" id="subBtn" onclick="submit()">Submit & Save to Sheet</button></div>
 
 <script>
-    // 1. PASTE YOUR WEB APP URL HERE
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzpTdptCzLhjnIjDjhrRMQSqh10qUIg6q11ewkhLlZ7RxAyhABbLxtehBHVT7IRrt0e/exec"; 
 
-    let batchCount = 0;
-    function addBatch() {
-        const c = document.getElementById("batchContainer");
-        c.insertAdjacentHTML('beforeend', `
-            <div class="batch-card">
-                <b>Batch ${batchCount+1}</b>
-                <div class="field"><label>Batch ID</label><input class="b-id"></div>
-                
-                <div class="field"><label>No of Candidates Available during inspection / Number of Candidates enrolled for the Batch</label>
-                    <input class="b-cand"></div>
-                
-                <div class="field"><label>Registered Trainer for the Batch Available at time of inspection?</label>
-                    <select class="b-trainer">
-                        <option>Yes</option>
-                        <option>No</option>
-                        <option>Others</option>
-                    </select></div>
-                
-                <div class="field"><label>Mandatory Lab Equipment Available?</label>
-                    <select class="b-equip">
-                        <option>Yes</option>
-                        <option>Partial</option>
-                        <option>No</option>
-                    </select></div>
-                
-                <div class="field"><label>Candidates Aware About PMKVY and course?</label>
-                    <select class="b-aware">
-                        <option>Yes</option>
-                        <option>Partially Aware</option>
-                        <option>Not Aware</option>
-                    </select></div>
-                
-                <div class="field"><label>Additional Remarks for Batch</label><input class="b-rem"></div>
-            </div>`);
-        batchCount++;
-    }
-    
-    // Initialize with one batch
-    addBatch();
-
-    async function submit() {
-        const btn = document.getElementById("subBtn");
-        if (!WEB_APP_URL || WEB_APP_URL.includes("YOUR_GOOGLE_SCRIPT")) {
-            alert("Error: Please set the WEB_APP_URL in the script section.");
-            return;
-        }
-
-        btn.disabled = true;
-        btn.innerText = "Saving to Google Sheet...";
-
+    // 1. SAVE TO LOCAL STORAGE
+    function saveLocal() {
         const data = {
             inspector: document.getElementById("inspector").value,
             designation: document.getElementById("designation").value,
@@ -195,16 +138,11 @@
             sidh: document.getElementById("sidh").value,
             spoc: document.getElementById("spoc").value,
             branding: document.getElementById("branding").value,
-            nc1: document.getElementById("nc1").value, 
-            nc2: document.getElementById("nc2").value, 
-            nc3: document.getElementById("nc3").value, 
-            nc4: document.getElementById("nc4").value,
-            nc5: document.getElementById("nc5").value, 
-            nc6: document.getElementById("nc6").value,
-            nc7: document.getElementById("nc7").value, 
-            nc8: document.getElementById("nc8").value,
-            nc9: document.getElementById("nc9").value, 
-            nc10: document.getElementById("nc10").value,
+            nc1: document.getElementById("nc1").value, nc2: document.getElementById("nc2").value,
+            nc3: document.getElementById("nc3").value, nc4: document.getElementById("nc4").value,
+            nc5: document.getElementById("nc5").value, nc6: document.getElementById("nc6").value,
+            nc7: document.getElementById("nc7").value, nc8: document.getElementById("nc8").value,
+            nc9: document.getElementById("nc9").value, nc10: document.getElementById("nc10").value,
             nc11: document.getElementById("nc11").value,
             ncRemarks: document.getElementById("ncRemarks").value,
             rating: document.getElementById("rating").value,
@@ -218,24 +156,96 @@
                 rem: card.querySelector('.b-rem').value
             }))
         };
+        localStorage.setItem("pmkvy_form_draft", JSON.stringify(data));
+    }
+
+    // 2. LOAD FROM LOCAL STORAGE
+    function loadLocal() {
+        const saved = localStorage.getItem("pmkvy_form_draft");
+        if (!saved) { addBatch(); return; }
+        const d = JSON.parse(saved);
+
+        document.getElementById("inspector").value = d.inspector || "";
+        document.getElementById("designation").value = d.designation || "";
+        document.getElementById("date").value = d.date || "";
+        document.getElementById("start").value = d.startTime || "";
+        document.getElementById("end").value = d.endTime || "";
+        document.getElementById("tcname").value = d.tcName || "";
+        document.getElementById("tcid").value = d.tcId || "";
+        document.getElementById("tp").value = d.tpName || "";
+        document.getElementById("district").value = d.tcStateDistrict || "";
+        document.getElementById("sidh").value = d.sidh || "Yes - 1";
+        document.getElementById("ncRemarks").value = d.ncRemarks || "";
+        document.getElementById("remarks").value = d.remarks || "";
+
+        if (d.batches && d.batches.length > 0) {
+            d.batches.forEach(b => addBatch(b));
+        } else {
+            addBatch();
+        }
+    }
+
+    function addBatch(data = null) {
+        const c = document.getElementById("batchContainer");
+        const count = document.querySelectorAll('.batch-card').length + 1;
+        c.insertAdjacentHTML('beforeend', `
+            <div class="batch-card">
+                <b>Batch ${count}</b>
+                <div class="field"><label>Batch ID</label><input class="b-id" value="${data?.id || ''}" oninput="saveLocal()"></div>
+                <div class="field"><label>No of Candidates Available / Enrolled</label><input class="b-cand" value="${data?.cand || ''}" oninput="saveLocal()"></div>
+                <div class="field"><label>Registered Trainer Available?</label><select class="b-trainer" onchange="saveLocal()">
+                    <option ${data?.trainer == 'Yes' ? 'selected' : ''}>Yes</option>
+                    <option ${data?.trainer == 'No' ? 'selected' : ''}>No</option>
+                    <option ${data?.trainer == 'Others' ? 'selected' : ''}>Others</option>
+                </select></div>
+                <div class="field"><label>Mandatory Lab Equipment Available?</label><select class="b-equip" onchange="saveLocal()">
+                    <option ${data?.equip == 'Yes' ? 'selected' : ''}>Yes</option>
+                    <option ${data?.equip == 'Partial' ? 'selected' : ''}>Partial</option>
+                    <option ${data?.equip == 'No' ? 'selected' : ''}>No</option>
+                </select></div>
+                <div class="field"><label>Candidates Aware About PMKVY and course?</label><select class="b-aware" onchange="saveLocal()">
+                    <option ${data?.aware == 'Yes' ? 'selected' : ''}>Yes</option>
+                    <option ${data?.aware == 'Partially Aware' ? 'selected' : ''}>Partially Aware</option>
+                    <option ${data?.aware == 'Not Aware' ? 'selected' : ''}>Not Aware</option>
+                </select></div>
+                <div class="field"><label>Additional Remarks</label><input class="b-rem" value="${data?.rem || ''}" oninput="saveLocal()"></div>
+            </div>`);
+    }
+
+    async function submit() {
+        const start = document.getElementById("start").value;
+        const end = document.getElementById("end").value;
+
+        if (!start || !end) {
+            alert("Inspection Start Time and End Time are mandatory!");
+            return;
+        }
+
+        const btn = document.getElementById("subBtn");
+        btn.disabled = true;
+        btn.innerText = "Saving to Google Sheet...";
+
+        saveLocal();
+        const data = JSON.parse(localStorage.getItem("pmkvy_form_draft"));
 
         try {
             await fetch(WEB_APP_URL, {
                 method: "POST",
                 mode: "no-cors",
-                cache: "no-cache",
-                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)
             });
-            alert("Success! Inspection report saved to Google Sheet.");
+            alert("Success! Data saved. Phone memory cleared.");
+            localStorage.removeItem("pmkvy_form_draft");
             location.reload();
         } catch (e) {
-            alert("Connection Error: " + e.toString());
+            alert("Connection Error. Your data is still safely saved on your phone. Try again when you have internet.");
         } finally {
             btn.disabled = false;
             btn.innerText = "Submit & Save to Sheet";
         }
     }
+
+    window.onload = loadLocal;
 </script>
 </body>
 </html>
