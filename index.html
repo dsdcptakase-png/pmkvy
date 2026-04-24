@@ -212,40 +212,65 @@
             </div>`);
     }
 
-    async function submit() {
-        const start = document.getElementById("start").value;
-        const end = document.getElementById("end").value;
+<script>
+async function submit() {
+    const start = document.getElementById("start").value;
+    const end = document.getElementById("end").value;
 
-        if (!start || !end) {
-            alert("Inspection Start Time and End Time are mandatory!");
-            return;
-        }
-
-        const btn = document.getElementById("subBtn");
-        btn.disabled = true;
-        btn.innerText = "Saving to Google Sheet...";
-
-        saveLocal();
-        const data = JSON.parse(localStorage.getItem("pmkvy_form_draft"));
-
-        try {
-            await fetch(WEB_APP_URL, {
-                method: "POST",
-                mode: "no-cors",
-                body: JSON.stringify(data)
-            });
-            alert("Success! Data saved. Phone memory cleared.");
-            localStorage.removeItem("pmkvy_form_draft");
-            location.reload();
-        } catch (e) {
-            alert("Connection Error. Your data is still safely saved on your phone. Try again when you have internet.");
-        } finally {
-            btn.disabled = false;
-            btn.innerText = "Submit & Save to Sheet";
-        }
+    if (!start || !end) {
+        alert("Inspection Start Time and End Time are mandatory!");
+        return;
     }
 
-    window.onload = loadLocal;
+    const btn = document.getElementById("subBtn");
+    btn.disabled = true;
+    btn.innerText = "Saving Data & Generating PDF...";
+
+    saveLocal();
+    const data = JSON.parse(localStorage.getItem("pmkvy_form_draft"));
+
+    try {
+
+        const response = await fetch(WEB_APP_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "text/plain;charset=utf-8"
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (result.result === "success") {
+
+            alert("Success! Data saved.");
+
+            // OPEN PDF
+            if (result.pdf) {
+                window.open(result.pdf, "_blank");
+            }
+
+            localStorage.removeItem("pmkvy_form_draft");
+
+            setTimeout(() => {
+                location.reload();
+            }, 1500);
+
+        } else {
+            alert("Error: " + result.error);
+        }
+
+    } catch (e) {
+
+        alert("Connection Error. Data may not be saved.");
+
+    } finally {
+
+        btn.disabled = false;
+        btn.innerText = "Submit & Save to Sheet";
+
+    }
+}
 </script>
 </body>
 </html>
