@@ -416,12 +416,13 @@ return;
 
 const btn=document.getElementById("subBtn");
 btn.disabled=true;
-btn.innerText="Saving Data...";
+btn.innerText="Saving Data & Generating PDF...";
 
 saveLocal();
 const data=JSON.parse(localStorage.getItem("pmkvy_form_draft"));
 
 try{
+
 const response=await fetch(WEB_APP_URL,{
 method:"POST",
 headers:{ "Content-Type":"text/plain;charset=utf-8" },
@@ -431,10 +432,21 @@ body:JSON.stringify(data)
 const result=await response.json();
 
 if(result.result==="success"){
+
 alert("Success! Data saved.");
 
 if(result.pdf){
-window.open(result.pdf,"_blank");
+
+    // DIRECT DOWNLOAD PDF
+    const a=document.createElement("a");
+    a.href=result.pdf;
+    a.target="_blank";
+    a.rel="noopener";
+    a.download="PMKVY_Inspection_Report.pdf";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
 }
 
 localStorage.removeItem("pmkvy_form_draft");
@@ -451,8 +463,6 @@ alert("Connection Error. Data may not be saved.");
 btn.disabled=false;
 btn.innerText="Submit & Save to Sheet";
 }
-
-window.onload=loadLocal;
 </script>
 
 </body>
