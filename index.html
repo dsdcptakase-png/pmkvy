@@ -213,7 +213,10 @@
     }
 
 <script>
-async function submit() {
+
+    <script>
+async function submitForm() {
+
     const start = document.getElementById("start").value;
     const end = document.getElementById("end").value;
 
@@ -245,7 +248,6 @@ async function submit() {
 
             alert("Success! Data saved.");
 
-            // OPEN PDF
             if (result.pdf) {
                 window.open(result.pdf, "_blank");
             }
